@@ -12,28 +12,28 @@ namespace TechProgr
 {
 	public partial class FormBus : Form
 	{
-		private BusTwoFloor Bus;
+		private ITransport Bus;
 		private bool bus_exist = false;
 		public FormBus()
 		{
 			InitializeComponent();
-			Bus = new BusTwoFloor();
 		}
 		private void Draw() {
 			Bitmap bmp = new Bitmap(pictureBoxBus.Width, pictureBoxBus.Height);
 			Graphics gr = Graphics.FromImage(bmp);
-			Bus.DrowBus(gr);
+			Bus.DrawTransport(gr);
 			pictureBoxBus.Image = bmp;
 		}
-		private void buttonCreate_Click(object sender, EventArgs e)
+
+		private void buttonCreateBus_Click(object sender, EventArgs e)
 		{
 			Random random = new Random();
-			Bus = new BusTwoFloor();
-			Bus.Init(random.Next(100, 200), random.Next(1000, 3000), true, true, Color.Red, Color.Yellow);
-			Bus.SetPosition(random.Next(200, 700), random.Next(200, 400));
+			Bus = new Bus(random.Next(100, 200), random.Next(1000, 3000), Color.Red);
+			Bus.SetPosition((float)random.Next(200, 700), (float)random.Next(200, 400), pictureBoxBus.Height, pictureBoxBus.Width);
 			bus_exist = true;
 			Draw();
 		}
+
 		private void buttomMove_Click(object sender, EventArgs e) {
 			string name = (sender as Button).Name;
 			if (bus_exist)
@@ -55,6 +55,15 @@ namespace TechProgr
 				}
 				Draw();
 			}
+		}
+
+		private void buttonCreateTwoFloorBus_Click(object sender, EventArgs e)
+		{
+			Random random = new Random();
+			Bus = new TwoFloorBus(random.Next(100, 200), random.Next(1000, 3000), Color.Red, Color.Yellow, true, true);
+			Bus.SetPosition(random.Next(200, 700), random.Next(200, 400), pictureBoxBus.Height, pictureBoxBus.Width);
+			bus_exist = true;
+			Draw();
 		}
 	}
 }
