@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-	interface ITransport
+	public interface ITransport
 	{
 		//			установка позиции
 		//координата x

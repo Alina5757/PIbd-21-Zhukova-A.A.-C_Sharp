@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-	enum Direction
+	public enum Direction
 	{
 		Up,
 		Down,
