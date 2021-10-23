@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-	abstract class Vehicle : ITransport
+	public abstract class Vehicle : ITransport
 	{
 		protected float x_koor;
 		protected float y_koor;

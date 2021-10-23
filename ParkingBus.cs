@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-    class ParkingBus<T> where T : class, ITransport
+    public class ParkingBus<T> where T : class, ITransport
     {
-        private readonly T[] places;
+        private readonly List <T> places;
+        private readonly int maxCount;
         private readonly int pictureHeight;
         private readonly int pictureWidth;
         private readonly int placeHeight = 170;
@@ -21,18 +22,19 @@ namespace TechProgr
         {
             height = parkingHeight / placeHeight;
             width = parkingWidth / placeWidth;
-            places = new T[height * width];
+            maxCount = width * height;
+            places = new List <T>();
             pictureHeight = parkingHeight;
             pictureWidth = parkingWidth;
         }
 
         public static int operator +(ParkingBus<T> p, T bus)
         {
-            for (int i = 0; i < p.places.Length; i++)
+            if (p.places.Count < p.maxCount)
             {
-                if (p.places[i] == null)
+                for (int i = 0; i < p.maxCount; i++)
                 {
-                    p.places[i] = bus;
+                    p.places.Add(bus);
                     bus.SetPosition(110 + (i % p.height) * p.placeWidth, 100 + ((i) / (p.width)) * p.placeHeight, p.pictureHeight, p.pictureWidth);
                     return 1;
                 }
@@ -42,12 +44,12 @@ namespace TechProgr
 
         public static T operator -(ParkingBus<T> p, int index)
         {
-            if ((index <= p.places.Length) && (index >= 0))
+            if ((index <= p.places.Count) && (index >= 0))
             {
                 if (p.places[index] != null)
                 {
                     T bus = p.places[index];
-                    p.places[index] = null;
+                    p.places.RemoveAt(index);
                     return bus;
                 }
             }
@@ -56,8 +58,9 @@ namespace TechProgr
 
         public void Draw(Graphics g) {
             DrawMapking(g);
-            for (int i = 0; i < places.Length; i++) {
-                places[i]?.DrawTransport(g);
+            for (int i = 0; i < places.Count; i++) {
+                places[i].SetPosition(110 + (i % height) * placeWidth, 100 + ((i) / (width)) * placeHeight, pictureHeight, pictureWidth);
+                places[i].DrawTransport(g);
             }
         }
 
