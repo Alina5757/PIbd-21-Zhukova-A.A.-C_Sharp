@@ -44,7 +44,7 @@ namespace TechProgr
 
         public static T operator -(ParkingBus<T> p, int index)
         {
-            if ((index <= p.places.Count) && (index >= 0))
+            if ((index < p.places.Count) && (index >= 0))
             {
                 if (p.places[index] != null)
                 {

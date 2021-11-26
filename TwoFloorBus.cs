@@ -59,5 +59,10 @@ namespace TechProgr
 				g.FillRectangle(brYel, x_koor + 70, y_koor + 30, 29, 3);
 			}
 		}
+
+		public void SetDopColor(Color color)
+		{
+			dopColor = color;
+		}
 	}
 }

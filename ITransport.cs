@@ -21,6 +21,10 @@ namespace TechProgr
 		void MoveTransport(Direction direction);
 
 		//Отрисовка
-		void DrawTransport(Graphics g);		
+		void DrawTransport(Graphics g);
+
+		//			изменение основного цвета
+		//Цвет color
+		void SetMainColor(Color color);
 	}
 }

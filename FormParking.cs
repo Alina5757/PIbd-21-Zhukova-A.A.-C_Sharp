@@ -49,51 +49,29 @@ namespace TechProgr
             }
         }             
 
-        private void buttonParkingBus_Click(object sender, EventArgs e)
+        private void buttonCreateBus_Click(object sender, EventArgs e)
         {
             if (listBoxParking.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
+            {               
+                var formconfig = new FormBusConfig();
+                formconfig.AddEvent(AddBus);
+                formconfig.Show();
+            }
+        }
+
+        private void AddBus(Vehicle bus) {
+            if (bus != null && listBoxParking.SelectedIndex > -1) {
+                if ((parkingCollection[listBoxParking.SelectedItem.ToString()]) + bus == 1)
                 {
-                    var bus = new Bus(1000, 100, dialog.Color);
-                    if (parkingCollection[listBoxParking.SelectedItem.ToString()] + bus != -1)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Parking is full");
-                    }
+                    Draw();
+                }
+                else {
+                    MessageBox.Show("Error, the bus could not be place");
                 }
             }
         }
 
-        private void buttonParkTwoBus_Click(object sender, EventArgs e)
-        {
-            if (listBoxParking.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var Tbus = new TwoFloorBus(50, 100, dialog.Color, dialogDop.Color, true, true);
-                        if (parkingCollection[listBoxParking.SelectedItem.ToString()] + Tbus != -1)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Parking is full");
-                        }
-                    }
-                }
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonPickUp_Click(object sender, EventArgs e)
         {
             if (listBoxParking.SelectedIndex > -1 && maskedTextBox1.Text != "") {
                 var bus = parkingCollection[listBoxParking.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBox1.Text);
@@ -123,7 +101,7 @@ namespace TechProgr
             if (listBoxParking.SelectedIndex > -1) {
                 if (MessageBox.Show($"Delete Parking {listBoxParking.SelectedItem.ToString()}?",
                     "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                    parkingCollection.DelParking(textBoxNameParking.Text);
+                    parkingCollection.DelParking(listBoxParking.SelectedItem.ToString());
                     ReloadLevels();
                 }
             }
