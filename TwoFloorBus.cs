@@ -21,6 +21,18 @@ namespace TechProgr
 			secondFloor = SecondFloor;
 		}
 
+		public TwoFloorBus(string info) : base(info) {
+			string[] str = info.Split(separator);
+			if (str.Length == 6) {
+				maxSpeed = Convert.ToInt32(str[0]);
+				weight = Convert.ToInt32(str[1]);
+				mainColor = Color.FromName(str[2]);
+				dopColor = Color.FromName(str[3]);
+				polosa = Convert.ToBoolean(str[4]);
+				secondFloor = Convert.ToBoolean(str[5]);
+			}
+		}
+
 		public override void DrawTransport(Graphics g)
 		{
 			base.DrawTransport(g);
@@ -64,5 +76,11 @@ namespace TechProgr
 		{
 			dopColor = color;
 		}
-	}
+
+        public override string ToString()
+        {
+            return
+				$"{base.ToString()}{separator}{dopColor.Name}{separator}{polosa}{separator}{secondFloor}";
+        }
+    }
 }
