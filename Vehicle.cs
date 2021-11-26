@@ -28,6 +28,10 @@ namespace TechProgr
 				y_koor = y;
 			}
 		}
+
+		public void SetMainColor(Color color) {
+			mainColor = color;
+		}
 		public abstract void DrawTransport(Graphics g);
 		public abstract void MoveTransport(Direction direction);
 	}
