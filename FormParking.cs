@@ -113,5 +113,32 @@ namespace TechProgr
                 Draw();
             }
 		}
-	}
+
+        private void safeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                if (parkingCollection.SafeData(saveFileDialog.FileName))
+                {
+                    MessageBox.Show("Safe complete successfully", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else {
+                    MessageBox.Show("File not safe", "Result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                if (parkingCollection.LoadData(openFileDialog.FileName))
+                {
+                    MessageBox.Show("File load successfully", "Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else {
+                    MessageBox.Show("File not load", "Result", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            ReloadLevels();
+        }       
+    }
 }

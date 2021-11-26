@@ -12,6 +12,8 @@ namespace TechProgr
 		protected readonly int busWidth = 95;
 		protected readonly int busHeight = 35;
 
+		protected char separator = ';';
+
 		public Bus(int Maxspeed, int Weight, Color MainColor) {
 			maxSpeed = Maxspeed;
 			weight = Weight;
@@ -24,6 +26,15 @@ namespace TechProgr
 			mainColor = MainColor;
 			this.busWidth = BusWidth;
 			this.busHeight = BusHeight;
+		}
+
+		public Bus(string info) {
+			string[] str = info.Split(separator);
+			if (str.Length == 3) {
+				maxSpeed = Convert.ToInt32(str[0]);
+				weight = Convert.ToInt32(str[1]);
+				mainColor = Color.FromName(str[2]);				
+			}
 		}
 
 		public override void MoveTransport(Direction direction)
@@ -89,5 +100,11 @@ namespace TechProgr
 			g.FillEllipse(brGrey, x_koor + 35, y_koor + 20, 35, 35);
 			g.DrawEllipse(pen, x_koor + 35, y_koor + 20, 35, 35);
 		}
-	}
+
+        public override string ToString()
+        {
+			return
+				$"{maxSpeed}{separator}{weight}{separator}{mainColor.Name}";
+        }
+    }
 }

@@ -12,12 +12,10 @@ namespace TechProgr
 {
     public partial class FormBusConfig : Form
     {
-        Vehicle bus = null;
+        Vehicle bus = null;                
+
         private event Action<Vehicle> eventAddBus;
         
-        Vehicle Temp(Func<Vehicle> funk) {
-            return funk();
-        }
         public FormBusConfig()
         {
             InitializeComponent();
@@ -31,7 +29,7 @@ namespace TechProgr
             panelColor8.MouseDown += new MouseEventHandler(panelColor_MouseDown);
             labelDopColor.DragEnter += new DragEventHandler(labelMainColor_DragEnter);
 
-            buttonCansel.Click += (object sender, EventArgs e) => { Close(); };
+            buttonCansel.Click += (object sender, EventArgs e) => { Close(); };            
         }
 
         private void DrawBus()
@@ -139,6 +137,6 @@ namespace TechProgr
         {
             eventAddBus?.Invoke(bus);
             Close();
-        }       
+        }      
     }
 }
