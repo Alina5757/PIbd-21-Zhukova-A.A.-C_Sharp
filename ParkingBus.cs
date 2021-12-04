@@ -32,6 +32,10 @@ namespace TechProgr
         {
             if (p.places.Count < p.maxCount)
             {
+                if (p.places.Count >= p.maxCount) {
+                    throw new ParkingOverflowException();
+                }
+
                 for (int i = 0; i < p.maxCount; i++)
                 {
                     p.places.Add(bus);
@@ -44,6 +48,9 @@ namespace TechProgr
 
         public static T operator -(ParkingBus<T> p, int index)
         {
+            if (index < -1 || index > p.places.Count) {
+                throw new ParkingNotFoundException(index);
+            }
             if ((index < p.places.Count) && (index >= 0))
             {
                 if (p.places[index] != null)

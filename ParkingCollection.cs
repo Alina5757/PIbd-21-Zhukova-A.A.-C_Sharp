@@ -45,7 +45,7 @@ namespace TechProgr
 			}
 		}		
 
-		public bool SafeData(string filename) {
+		public void SafeData(string filename) {
 			if (File.Exists(filename)) {
 				File.Delete(filename);
 			}
@@ -73,12 +73,11 @@ namespace TechProgr
 					}
 				}
 			}
-			return true;
 		}		
 
-		public bool LoadData(string filename) {
+		public void LoadData(string filename) {
 			if (!File.Exists(filename)) {
-				return false;
+				throw new FileNotFoundException();
 			}
 			string bufferTextFromFile = "";
 			Vehicle bus;
@@ -92,7 +91,7 @@ namespace TechProgr
 				}
 				else
 				{
-					return false;
+					throw new ArgumentException("Incorrect file format");
 				}
 				bus = null;
 				key = string.Empty;
@@ -127,13 +126,12 @@ namespace TechProgr
 							var result = parkingStages[key] + bus;
 							if (result != 1)
 							{
-								return false;
+								throw new IndexOutOfRangeException("Failed to load the bus into parking");
 							}
 						}
 					}
 				}
 			}
-			return true;
 		}			
 	}
 }
