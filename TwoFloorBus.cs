@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-	class TwoFloorBus : Bus
+	class TwoFloorBus : Bus, IEquatable<TwoFloorBus>
 	{
 		public Color dopColor { private set; get; }
 		public bool polosa { private set; get; }
@@ -82,5 +82,50 @@ namespace TechProgr
             return
 				$"{base.ToString()}{separator}{dopColor.Name}{separator}{polosa}{separator}{secondFloor}";
         }
+
+		public bool Equals(TwoFloorBus other){
+			if (other == null)
+			{
+				return false;
+			}
+			if (GetType().Name != other.GetType().Name)
+			{
+				return false;
+			}
+			if (maxSpeed != other.maxSpeed)
+			{
+				return false;
+			}
+			if (weight != other.weight)
+			{
+				return false;
+			}
+			if (mainColor != other.mainColor)
+			{
+				return false;
+			}
+			if (dopColor != other.dopColor){
+				return false;
+			}
+			if(polosa != other.polosa){
+				return false;
+			}
+			if(secondFloor != other.secondFloor){
+				return false;
+			}			
+			return true;
+		}
+
+		public override bool Equals(Object obj){
+			if(obj == null){
+				return false;
+			}
+			if(!(obj is TwoFloorBus busObj)){
+				return false;
+			}
+			else{
+				return Equals(busObj);
+			}
+		}
     }
 }

@@ -83,7 +83,7 @@ namespace TechProgr
             switch (e.Data.GetData(DataFormats.Text).ToString())
             {
                 case "Bus":
-                    bus = new Bus(100, 500, Color.White);
+                    bus = new Bus((int)numericUpDownSpeed.Value, (int)numericUpDownWeight.Value, Color.White);
                     break;
                 case "Two-Floor Bus":
                     bus = new TwoFloorBus((int)numericUpDownSpeed.Value, (int)numericUpDownWeight.Value, Color.White, Color.Black, checkBoxPolosa.Checked, checkBoxSecondFloor.Checked);

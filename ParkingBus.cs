@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -7,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-    public class ParkingBus<T> where T : class, ITransport
+    public class ParkingBus<T> : IEnumerator<T>, IEnumerable<T>
+        where T : class, ITransport
     {
         private readonly List <T> places;
         private readonly int maxCount;
@@ -17,6 +19,9 @@ namespace TechProgr
         private readonly int placeWidth = 300;
         private readonly int height;
         private readonly int width;
+        private int currentIndex;
+        public T Current => places[currentIndex];
+        Object IEnumerator.Current => places[currentIndex];
 
         public ParkingBus(int parkingHeight, int parkingWidth)
         {
@@ -26,14 +31,18 @@ namespace TechProgr
             places = new List <T>();
             pictureHeight = parkingHeight;
             pictureWidth = parkingWidth;
+            currentIndex = -1;
         }
 
-        public static int operator +(ParkingBus<T> p, T bus)
+		public static int operator +(ParkingBus<T> p, T bus)
         {
             if (p.places.Count < p.maxCount)
             {
                 if (p.places.Count >= p.maxCount) {
                     throw new ParkingOverflowException();
+                }
+                if (p.places.Contains(bus)) {
+                    throw new ParkingAlreadyHaveException();
                 }
 
                 for (int i = 0; i < p.maxCount; i++)
@@ -90,6 +99,34 @@ namespace TechProgr
                 return null;
             }
             return places[index];
+        }
+
+        public void Sort() => places.Sort((IComparer<T>)new BusComparer());
+
+        public void Dispose() { }
+
+         public bool MoveNext() {
+            if (currentIndex != -1 && currentIndex < places.Count)
+            {
+                currentIndex++;
+                if(currentIndex < places.Count)
+				{
+                    return true;
+				}
+            }
+            return false;
+         }
+
+        public void Reset() {
+            currentIndex = -1;
+        }
+
+        public IEnumerator<T> GetEnumerator() {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return this;
         }
     }
 }
