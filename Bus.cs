@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TechProgr
 {
-	class Bus : Vehicle
+	class Bus : Vehicle, IEquatable<Bus>
 	{
 		protected readonly int busWidth = 95;
 		protected readonly int busHeight = 35;
@@ -106,5 +106,36 @@ namespace TechProgr
 			return
 				$"{maxSpeed}{separator}{weight}{separator}{mainColor.Name}";
         }
+
+		public bool Equals(Bus other){
+			if(other == null){
+				return false;
+			}
+			if(GetType().Name != other.GetType().Name){
+				return false;
+			}
+			if(maxSpeed != other.maxSpeed){
+				return false;
+			}
+			if(weight != other.weight){
+				return false;
+			}
+			if(mainColor != other.mainColor){
+				return false;
+			}
+			return true;
+		}
+
+		public override bool Equals(Object obj){
+			if(obj == null){
+				return false;
+			}
+			if(!(obj is Bus busObj)){
+				return false;
+			}
+			else{
+				return Equals(busObj);
+			}
+		}
     }
 }

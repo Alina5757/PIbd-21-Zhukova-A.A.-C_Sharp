@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,12 +12,15 @@ namespace TechProgr
 	{
 		public readonly Dictionary<string, ParkingBus<Vehicle>> parkingStages;
 
+		FormParking formpark;
+
 		public List<string> Keys => parkingStages.Keys.ToList();
 		private readonly int pictureHeight;
 		private readonly int pictureWidth;
 		private readonly char separator = ':';
 
-		public ParkingCollection(int PictureHeight, int PictureWidth) {
+		public ParkingCollection(int PictureHeight, int PictureWidth, FormParking formpark) {
+			this.formpark = formpark;
 			parkingStages = new Dictionary<string, ParkingBus<Vehicle>>();
 			pictureHeight = PictureHeight;
 			pictureWidth = PictureWidth;
@@ -55,8 +59,7 @@ namespace TechProgr
 				foreach (var level in parkingStages)
 				{
 					sw.WriteLine($"Parking{separator}{level.Key}");
-					ITransport bus = null;
-					for (int i = 0; (bus = level.Value.GetNext(i)) != null; i++)
+					foreach (ITransport bus in level.Value)
 					{
 						if (bus != null)
 						{
@@ -70,7 +73,7 @@ namespace TechProgr
 							}
 							sw.WriteLine(bus);
 						}
-					}
+					}					
 				}
 			}
 		}		
@@ -132,6 +135,7 @@ namespace TechProgr
 					}
 				}
 			}
-		}			
+		}		
 	}
 }
+

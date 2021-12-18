@@ -15,15 +15,26 @@ namespace TechProgr
     {
         private readonly ParkingCollection parkingCollection;
         private readonly Logger logger;
+        public string GetselectedparkingStr(){
+            return (string)listBoxParking.SelectedItem;
+        }
+        public ParkingBus<Vehicle> Getselectedparking()
+        {
+            if(parkingCollection != null)
+			{
+                return parkingCollection[listBoxParking.SelectedItem.ToString()];
+            }
+            return null;
+        }
         public FormParking()
         {
             InitializeComponent();
-            parkingCollection = new ParkingCollection(pictureBoxParking.Height, pictureBoxParking.Width);
+            parkingCollection = new ParkingCollection(pictureBoxParking.Height, pictureBoxParking.Width, this);
             logger = LogManager.GetCurrentClassLogger();
         }
 
         private void ReloadLevels()
-        {
+        {            
             int index = listBoxParking.SelectedIndex;
             listBoxParking.Items.Clear();
             for (int i = 0; i < parkingCollection.Keys.Count; i++)
@@ -80,12 +91,16 @@ namespace TechProgr
                 logger.Warn($"Add bus error: parking " + (parkingCollection[listBoxParking.SelectedItem.ToString()]) + " overflow");
                 MessageBox.Show(ex.Message, "Overflow", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (ParkingAlreadyHaveException ex) {
+                logger.Warn($"Add bus error: dublikate bus of parking " + parkingCollection[listBoxParking.SelectedItem.ToString()]);
+                MessageBox.Show(ex.Message, "Dublicate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
                 logger.Warn($"Add bus error: unknow error of parking " + parkingCollection[listBoxParking.SelectedItem.ToString()]);
                 MessageBox.Show(ex.Message, "Unknow error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }// Логи -> уровень - дата - текст лога
+        }
 
         private void buttonPickUp_Click(object sender, EventArgs e)
         {
@@ -180,6 +195,15 @@ namespace TechProgr
                     MessageBox.Show(ex.Message, "Unknown error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }                
             }
-        }       
-    }
+        }
+
+		private void buttonSort_Click(object sender, EventArgs e)
+		{
+            if (listBoxParking.SelectedIndex > -1) {
+                parkingCollection[listBoxParking.SelectedItem.ToString()].Sort();
+                Draw();
+                logger.Info("Sort levels");
+            }
+		}
+	}
 }
